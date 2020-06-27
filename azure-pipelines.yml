@@ -1,0 +1,36 @@
+trigger:
+- master
+
+pool:
+      vmImage: 'ubuntu-latest'
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: BuildJar
+  jobs:
+  - job: BuildJarJob
+    steps:
+    - bash: mvn clean package -DskipTests
+- stage: BuildImage
+  jobs:
+  - job: BuildImageJob
+    steps:
+    - bash: docker build -t=akbarchandani/azure-selenium-docker-linux .
+- stage: Build
+  displayName: Build image
+  jobs:  
+  - job: Build
+    displayName: Build    
+    steps:
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        containerRegistry: 'akbarchandani-docker-hub'
+        repository: 'akbarchandani/azure-selenium-docker-linux'
+        command: 'push'
+        tags: '$(tag)'
