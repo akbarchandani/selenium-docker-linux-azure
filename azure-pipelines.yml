@@ -25,4 +25,4 @@ stages:
         containerRegistry: 'akbarchandani-docker-hub'
         repository: 'akbarchandani/azure-selenium-docker-linux'
         command: 'push'
-        tags: '$(tag)'
+        tags: 'latest'
