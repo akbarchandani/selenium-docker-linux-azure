@@ -11,23 +11,14 @@ variables:
   tag: '$(Build.BuildId)'
 
 stages:
-- stage: BuildJar
-  jobs:
-  - job: BuildJarJob
-    steps:
-    - bash: echo 'yahoo'
-- stage: BuildImage
-  jobs:
-  - job: BuildImageJob
-    steps:
-    - bash: mvn clean package -DskipTests
-    - bash: docker build -t=akbarchandani/azure-selenium-docker-linux .
 - stage: Build
   displayName: Build image
   jobs:  
   - job: Build
     displayName: Build    
     steps:
+    - bash: mvn clean package -DskipTests
+    - bash: docker build -t=akbarchandani/azure-selenium-docker-linux .
     - task: Docker@2
       displayName: Build an image
       inputs:
