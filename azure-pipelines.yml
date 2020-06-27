@@ -15,11 +15,12 @@ stages:
   jobs:
   - job: BuildJarJob
     steps:
-    - bash: mvn clean package -DskipTests
+    - bash: echo 'yahoo'
 - stage: BuildImage
   jobs:
   - job: BuildImageJob
     steps:
+    - bash: mvn clean package -DskipTests
     - bash: docker build -t=akbarchandani/azure-selenium-docker-linux .
 - stage: Build
   displayName: Build image
